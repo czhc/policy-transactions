@@ -10,3 +10,10 @@
 # Installation
 
 1.
+
+# Testing
+
+Run `bundle exec rspec --color spec/ --format progress` in the root directory.
+
+# Results
+
