@@ -9,11 +9,11 @@ class PizzaAndCurryDeal < Deal::Base
 
   def counts_of_pairs(items)
     items = filter_for_pizza_or_curry(items)
-    items.group_by{|i| i.code}.minimum(:count)
+    return items.group_by{|i| i.code}.values.min{ |a, b| a.length <=> b.length }.count
   end
 
   def filter_for_pizza_or_curry(items)
-    return items.select { |item| [Pizza::CODE, CurrySauce::CODE].includes? item.code }
+    return items.select { |item| [Pizza::CODE, CurrySauce::CODE].include? item.code }
   end
 
   def apply_discount(n=0)
