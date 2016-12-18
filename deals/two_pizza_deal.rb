@@ -1,6 +1,7 @@
 class TwoPizzaDeal < Deal::Base
   DISCOUNTABLE = 2.00
   WEIGHT = 0
+
   def run(items)
     filtered = filter(items)
     if filtered.count >= 2
