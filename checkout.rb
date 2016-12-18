@@ -1,16 +1,26 @@
 require 'virtus'
-require_relative 'product'
+require './boot'
 
 class Checkout
-  attr_reader :items, :total
-  def initialize(*policies)
-    @items = []
-    @total = 0
-  end
+  include Virtus.model(strict: true)
+  attribute :rules, Array[Deal::Base]
+  attribute :discounts, Array[Discount]
+  attribute :items, Array[Product::Base]
 
   def scan(item)
-    @total = @total += item.price
-    @items.push(item)
-    return item
+    @items << item
+  end
+
+  def total
+    return discounts.inject(gross_total){ |total, discount| discount.operate(total) }.round(2)
+  end
+
+  def gross_total
+    return @items.inject(0){ |sum, i| sum + i.price }
+  end
+
+  private
+  def discounts
+    return Deal.sort_by_weight(rules).map{|r| r.run(@items)}.flatten.compact
   end
 end
