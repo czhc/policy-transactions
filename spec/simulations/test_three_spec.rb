@@ -1,6 +1,6 @@
-require_relative '../boot.rb'
+require_relative '../../boot.rb'
 
-RSpesubject.describe 'Test Three' do
+RSpec.describe 'Test Three' do
   subject { Checkout.new(rules: [ThirtyPoundDeal.new, TwoPizzaDeal.new]) }
   before do
     subject.scan(Pizza.new)
